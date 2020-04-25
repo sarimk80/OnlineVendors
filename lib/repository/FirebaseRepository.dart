@@ -65,8 +65,15 @@ class FirebaseRepository {
     ]);
   }
 
-  Future<void> sendVendorData(File file, String name, String description,
-      String price, String type) async {
+  Future<void> sendVendorData(
+      File file,
+      String name,
+      String description,
+      String price,
+      String type,
+      String uuid,
+      String senderName,
+      String senderImage) async {
     StorageReference reference = FirebaseStorage.instance
         .ref()
         .child("VendorImage")
@@ -78,11 +85,14 @@ class FirebaseRepository {
     String url = downloadUrl.toString();
 
     VendorData data = VendorData(
+        uuid: uuid,
         name: name,
         description: description,
         price: price,
         type: type,
-        imageUrl: url);
+        imageUrl: url,
+        senderImage: senderImage,
+        senderName: senderName);
 
     return Future.wait([
       Firestore.instance.collection("Vendors").document().setData(
@@ -91,5 +101,18 @@ class FirebaseRepository {
             ),
           )
     ]);
+  }
+
+  Future<User> getUserFromFireStore(String uuid) async {
+    DocumentSnapshot user =
+        await Firestore.instance.collection("Users").document(uuid).get();
+
+    User myUser = User.fromJson(
+      jsonDecode(
+        jsonEncode(user.data),
+      ),
+    );
+
+    return myUser;
   }
 }

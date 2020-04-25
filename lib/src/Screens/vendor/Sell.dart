@@ -8,6 +8,12 @@ import 'package:homemade/src/widgets/CustomButton.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Sell extends StatefulWidget {
+  final String uuid;
+  final String name;
+  final String imageUrl;
+
+  Sell({this.uuid, this.name, this.imageUrl});
+
   @override
   _SellState createState() => _SellState();
 }
@@ -209,7 +215,10 @@ class _SellState extends State<Sell> {
                       nameController.text,
                       descriptionController.text,
                       slider.toInt().toString(),
-                      type)
+                      type,
+                      widget.uuid,
+                      widget.name,
+                      widget.imageUrl)
                   .whenComplete(() {
                 Navigator.pop(context);
               }).catchError((error) {

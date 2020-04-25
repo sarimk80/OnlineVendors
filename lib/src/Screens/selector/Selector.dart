@@ -34,11 +34,16 @@ class Selector extends StatelessWidget {
                       );
                       if (user.isVendor) {
                         return Vendor(
+                          uuid: snapshot.data.uid,
                           name: snapshot.data.displayName,
                           imageUrl: snapshot.data.photoUrl,
                         );
                       } else {
-                        return Buyer();
+                        return Buyer(
+                          uuid: snapshot.data.uid,
+                          name: snapshot.data.displayName,
+                          imageUrl: snapshot.data.photoUrl,
+                        );
                       }
                     } else {
                       return Center(
@@ -46,7 +51,6 @@ class Selector extends StatelessWidget {
                       );
                     }
 //
-                    return Container();
                   });
             }
             return Center(

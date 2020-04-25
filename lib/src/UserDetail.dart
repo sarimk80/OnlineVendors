@@ -17,6 +17,7 @@ class _UserDetailState extends State<UserDetail> {
 
   bool isVendor = false;
   bool isBuyer = false;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -98,8 +99,19 @@ class _UserDetailState extends State<UserDetail> {
           SizedBox(
             height: 20,
           ),
+          isLoading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Container(),
+          SizedBox(
+            height: 20,
+          ),
           CustomButton(
             onTap: () {
+              setState(() {
+                isLoading = true;
+              });
               _firebaseRepository.signInWithGoogle().then((user) {
                 _firebaseRepository
                     .sendUserData(
